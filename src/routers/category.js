@@ -40,6 +40,25 @@ router.get('/categories/:id', auth, async (req, res) => {
   }
 })
 
+router.get('/categories/:id/subcategories', auth, async (req, res) => {
+  const _id = req.params.id
+  try {
+    console.log("Its coming here ")
+    const category = await Category.findById(_id)
+    const subcategories = await category.populate('subcategories').execPopulate()
+    if (!category) {
+      return res.status(404).send({ error: 'category not found' })
+    }
+    if (!subcategories) {
+      return res.send({ subcategories: [] })
+    }
+
+    res.send({ subcategories })
+  } catch (e) {
+    res.status(500).send()
+  }
+})
+
 router.patch('/categories/:id', auth, async (req, res) => {
   const updates = Object.keys(req.body)
   const allowedUpdates = ['name', 'description']

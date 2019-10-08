@@ -5,15 +5,16 @@ const productSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+  description: {
+    type: String,
+    trim: true
+  },
   subcategory: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'SubCategory'
   },
-  description: {
-    type: String,
-    trim: true
-  }
+  
 })
 
 const Product = new mongoose.model('Product', productSchema)
