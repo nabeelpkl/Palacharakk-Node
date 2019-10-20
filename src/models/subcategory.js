@@ -5,7 +5,6 @@ const subCategorySchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: true,
-    unique: true
   },
   description: {
     type: String,
@@ -15,6 +14,10 @@ const subCategorySchema = new mongoose.Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref: 'Category'
+  },
+  image: {
+    type: String,
     trim: true
   }
 })

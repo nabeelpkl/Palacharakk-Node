@@ -2,9 +2,10 @@ const express = require('express')
 const SubCategory = require('../models/subcategory')
 const router = new express.Router()
 const auth = require('../middleware/auth')
-
+const mongoose = require('mongoose')
 router.post('/subcategories', auth, async (req, res) => {
-  const subcategory = new SubCategory(req.body)
+  let categoryId = mongoose.Types.ObjectId(req.body.category)
+  const subcategory = new SubCategory({ ...req.body, category: categoryId })
 
   try {
     await subcategory.save()
@@ -42,16 +43,18 @@ router.get('/subcategories/:id/products', auth, async (req, res) => {
   const _id = req.params.id
   try {
     const subcategory = await SubCategory.findById(_id)
-    const products = await subcategory.populate('products').execPopulate()
     if (!subcategory) {
       return res.status(404).send({ error: 'category not found' })
     }
+    const products = await subcategory.populate('products').execPopulate()
+
     if (!products) {
       return res.send({ products: [] })
     }
 
     res.send({ products })
   } catch (e) {
+    console.log(e)
     res.status(500).send()
   }
 })

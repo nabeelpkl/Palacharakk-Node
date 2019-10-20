@@ -43,12 +43,16 @@ router.get('/categories/:id', auth, async (req, res) => {
 router.get('/categories/:id/subcategories', auth, async (req, res) => {
   const _id = req.params.id
   try {
-    console.log("Its coming here ")
+    console.log('Its coming here ')
     const category = await Category.findById(_id)
-    const subcategories = await category.populate('subcategories').execPopulate()
+    console.log('looking subcategories for category: ', category)
     if (!category) {
       return res.status(404).send({ error: 'category not found' })
     }
+    
+    const subcategories = await category.populate('subcategories').execPopulate()
+    console.log(' subcategories  ', subcategories)
+
     if (!subcategories) {
       return res.send({ subcategories: [] })
     }

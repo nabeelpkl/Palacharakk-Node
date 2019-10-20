@@ -14,7 +14,10 @@ const productSchema = new mongoose.Schema({
     required: true,
     ref: 'SubCategory'
   },
-  
+  image: {
+    type: String,
+    trim: true,
+  },
 })
 
 const Product = new mongoose.model('Product', productSchema)

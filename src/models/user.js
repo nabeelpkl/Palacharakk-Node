@@ -22,6 +22,27 @@ const userSchema = new mongoose.Schema({
       }
     }
   },
+  phone: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true,
+    validate (value) {
+      if (value.length < 8) {
+        throw new Error('Mobile number is invalid')
+      }
+    }
+  },
+  sex: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  type: {
+    type: String,
+    required: true,
+    trim: true
+  },
   password: {
     type: String,
     required: true,

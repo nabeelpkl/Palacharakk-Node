@@ -4,6 +4,25 @@ const auth = require('../middleware/auth')
 const router = new express.Router()
 
 router.post('/users', async (req, res) => {
+  let userObj = req.body
+  if(!userObj.type){
+    userObj.type = "user"
+  }
+  
+  const user = new User(req.body)
+  console.log('request body', req.body)
+
+  try {
+    await user.save()
+    const token = await user.generateAuthToken()
+
+    res.status(201).send({ user, token })
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+router.post('/users/admin', async (req, res) => {
   const user = new User(req.body)
   console.log('request body', req.body)
   try {
